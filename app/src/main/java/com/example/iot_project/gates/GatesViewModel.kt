@@ -24,6 +24,10 @@ class GatesViewModel(
 
     private val _selectedGate = MutableStateFlow<Gate?>(null)
     val selectedGate: StateFlow<Gate?> = _selectedGate.asStateFlow()
+    
+    private val _toast = MutableStateFlow("")
+    val toast: StateFlow<String> = _toast.asStateFlow()
+
 
     fun onAddGateClicked() {
         _showAddDialog.value = true
@@ -42,6 +46,14 @@ class GatesViewModel(
         _showEditDialog.value = false
         _selectedGate.value = null
     }
+    
+    fun onToast(message: String){
+        _toast.value = "Wrong data input ("+message+")"
+    }
+
+    fun onToastShown() {
+        _toast.value = ""
+    }
 
     fun importGates() {
         viewModelScope.launch {
@@ -52,7 +64,12 @@ class GatesViewModel(
     fun createGate(name: String, buildingId: String) {
         viewModelScope.launch {
             val newGate = Gate(id = -1, name = name, building_id = buildingId.toIntOrNull() ?: 0)
-            repo.create(newGate)
+
+            try{
+                val response = repo.create(newGate)
+            }catch (e: Exception){
+                onToast(e.message.toString())
+            }
             importGates()
             onAddDialogDismiss()
         }

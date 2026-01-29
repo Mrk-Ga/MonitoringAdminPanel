@@ -1,5 +1,6 @@
 package com.example.iot_project.gates
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.iot_project.models.Gate
@@ -45,9 +47,15 @@ fun GatesScreen(
     val gates by viewModel.mainState.collectAsState()
     val showAddDialog by viewModel.showAddDialog.collectAsState()
     val showEditDialog by viewModel.showEditDialog.collectAsState()
+    val toast by viewModel.toast.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.importGates()
+    }
+
+    if (toast.isNotEmpty()) {
+        Toast.makeText(LocalContext.current, toast, Toast.LENGTH_SHORT).show()
+        viewModel.onToastShown()
     }
 
     if (showAddDialog) {
