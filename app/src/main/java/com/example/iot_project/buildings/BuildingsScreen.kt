@@ -153,7 +153,7 @@ fun BuildingCard(building: Building, onLongClick: () -> Unit) {
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .combinedClickable(
-                onClick = { /* Handle single click if needed */ },
+                onClick = { },
                 onLongClick = onLongClick
             ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)

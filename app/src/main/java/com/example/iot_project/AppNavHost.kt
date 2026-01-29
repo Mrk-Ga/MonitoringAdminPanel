@@ -99,13 +99,6 @@ fun AppNavHost(navController: NavHostController){
         )
 
 
-/*        val buildingVM = BuildingViewModel(
-            BuildingRepository(
-                RetrofitInstance.createBuildingApi("RetrofitInstance.BASE_URL")
-            )
-        )*/
-
-
         NavHost(
             navController = navController,
             startDestination = "gates",

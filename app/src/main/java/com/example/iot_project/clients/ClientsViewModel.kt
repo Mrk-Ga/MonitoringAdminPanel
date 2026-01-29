@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.math.BigInteger
 
 class ClientsViewModel(
     private val repo: ClientRepository
@@ -51,7 +52,7 @@ class ClientsViewModel(
 
     fun createClient(name: String, lastname: String, refId: String, email: String, indeks: String) {
         viewModelScope.launch {
-            val newClient = Client(id = -1, name = name, lastname = lastname, rfid = refId.toIntOrNull() ?: 0, email = email, indeks = indeks)
+            val newClient = Client(id = -1, name = name, lastname = lastname, rfid = refId.toBigInteger(), email = email, indeks = indeks)
             repo.create(newClient)
             importClients()
             onAddDialogDismiss()
@@ -60,7 +61,7 @@ class ClientsViewModel(
 
     fun updateClient(id: Int, name: String, lastname: String, refId: String, email: String, indeks:String) {
         viewModelScope.launch {
-            val updatedClient = Client(id = id, name = name, lastname = lastname, rfid = refId.toIntOrNull() ?: 0, email = email, indeks=indeks)
+            val updatedClient = Client(id = id, name = name, lastname = lastname, rfid = refId.toBigInteger(), email = email, indeks=indeks)
             repo.update(updatedClient)
             importClients()
             onEditDialogDismiss()

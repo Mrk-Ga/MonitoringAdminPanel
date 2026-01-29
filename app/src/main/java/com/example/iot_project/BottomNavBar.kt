@@ -25,28 +25,24 @@ val bottomNavItems = listOf(
         route = "gates",
         label = "Gates",
         icon = Icons.Filled.DoorFront
-        // alternatywa: Icons.Filled.Lock
     ),
 
     BottomNavItem(
         route = "clients",
         label = "Clients",
         icon = Icons.Filled.People
-        // alternatywa: Icons.Filled.Person
     ),
 
     BottomNavItem(
         route = "access_logs",
         label = "Access Logs",
         icon = Icons.Filled.History
-        // alternatywa: Icons.Filled.ReceiptLong
     ),
 
     BottomNavItem(
         route = "buildings",
         label = "Buildings",
         icon = Icons.Filled.Apartment
-        // alternatywa: Icons.Filled.Business
     )
 )
 data class BottomNavItem(
