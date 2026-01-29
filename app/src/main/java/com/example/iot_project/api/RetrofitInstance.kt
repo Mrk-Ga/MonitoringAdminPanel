@@ -26,11 +26,13 @@ object RetrofitInstance {
         .addInterceptor(loggingInterceptor)
         .build()
 
-    /*    val loggingInterceptor = HttpLoggingInterceptor { message ->
+/*
+       val loggingInterceptor = HttpLoggingInterceptor { message ->
             Log.d("HTTP", message)
         }.apply {
             level = HttpLoggingInterceptor.Level.BODY
-        }*/
+        }
+*/
 
 /*    val api: ApiService by lazy {
 
@@ -47,6 +49,7 @@ object RetrofitInstance {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
     }
 

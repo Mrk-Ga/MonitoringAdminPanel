@@ -51,7 +51,7 @@ class BuildingsViewModel(
 
     fun createBuilding(name: String, address: String) {
         viewModelScope.launch {
-            val newBuilding = Building(id = 0, name = name, address = address)
+            val newBuilding = Building(id = -1, name = name, address = address)
             buildingRepository.create(newBuilding)
             importBuildings()
             onAddDialogDismiss()

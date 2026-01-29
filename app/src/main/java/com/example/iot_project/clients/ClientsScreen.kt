@@ -55,7 +55,7 @@ fun ClientsScreen(
     }
 
     if (showEditDialog) {
-        viewModel.selectedClient.value?.let {
+        viewModel.selectedClient.collectAsState().value?.let {
             EditClientDialog(viewModel = viewModel, client = it)
         }
     }
@@ -86,6 +86,8 @@ fun AddClientDialog(viewModel: ClientsViewModel) {
     var lastname by remember { mutableStateOf("") }
     var refId by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var indeks by remember { mutableStateOf("") }
+
 
     AlertDialog(
         onDismissRequest = { viewModel.onAddDialogDismiss() },
@@ -99,10 +101,13 @@ fun AddClientDialog(viewModel: ClientsViewModel) {
                 TextField(value = refId, onValueChange = { refId = it }, label = { Text("Reference ID") })
                 Spacer(modifier = Modifier.height(8.dp))
                 TextField(value = email, onValueChange = { email = it }, label = { Text("Email") })
+                Spacer(modifier = Modifier.height(8.dp))
+                TextField(value = indeks, onValueChange = { indeks= it }, label = { Text("Index") })
             }
         },
         confirmButton = {
-            Button(onClick = { viewModel.createClient(name, lastname, refId, email) }) {
+            Button(onClick = { viewModel.createClient(name, lastname, refId, email, indeks)
+                                viewModel.onAddDialogDismiss() }) {
                 Text("Add")
             }
         },
@@ -118,8 +123,10 @@ fun AddClientDialog(viewModel: ClientsViewModel) {
 fun EditClientDialog(viewModel: ClientsViewModel, client: Client) {
     var name by remember { mutableStateOf(client.name) }
     var lastname by remember { mutableStateOf(client.lastname) }
-    var refId by remember { mutableStateOf(client.refId.toString()) }
+    var refId by remember { mutableStateOf(client.rfid.toString()) }
     var email by remember { mutableStateOf(client.email) }
+    var indeks by remember { mutableStateOf(client.indeks) }
+
 
     AlertDialog(
         onDismissRequest = { viewModel.onEditDialogDismiss() },
@@ -133,10 +140,13 @@ fun EditClientDialog(viewModel: ClientsViewModel, client: Client) {
                 TextField(value = refId, onValueChange = { refId = it }, label = { Text("Reference ID") })
                 Spacer(modifier = Modifier.height(8.dp))
                 TextField(value = email, onValueChange = { email = it }, label = { Text("Email") })
+                Spacer(modifier = Modifier.height(8.dp))
+                TextField(value = indeks, onValueChange = { indeks = it }, label = { Text("Index") })
             }
         },
         confirmButton = {
-            Button(onClick = { viewModel.updateClient(client.id, name, lastname, refId, email) }) {
+            Button(onClick = { viewModel.updateClient(client.id, name, lastname, refId, email, indeks)
+                                viewModel.onEditDialogDismiss() }) {
                 Text("Save")
             }
         },
@@ -181,7 +191,7 @@ fun ClientCard(client: Client, onLongClick: () -> Unit) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Ref ID: ${client.refId}",
+                    text = "Ref ID: ${client.rfid}",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

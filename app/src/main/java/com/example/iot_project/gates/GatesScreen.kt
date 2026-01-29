@@ -55,7 +55,7 @@ fun GatesScreen(
     }
 
     if (showEditDialog) {
-        viewModel.selectedGate.value?.let {
+        viewModel.selectedGate.collectAsState().value?.let {
             EditGateDialog(viewModel = viewModel, gate = it)
         }
     }
@@ -96,7 +96,8 @@ fun AddGateDialog(viewModel: GatesViewModel) {
             }
         },
         confirmButton = {
-            Button(onClick = { viewModel.createGate(name, buildingId) }) {
+            Button(onClick = { viewModel.createGate(name, buildingId)
+                                viewModel.onAddDialogDismiss() }) {
                 Text("Add")
             }
         },
@@ -124,13 +125,15 @@ fun EditGateDialog(viewModel: GatesViewModel, gate: Gate) {
             }
         },
         confirmButton = {
-            Button(onClick = { viewModel.updateGate(gate.id, name, buildingId) }) {
+            Button(onClick = { viewModel.updateGate(gate.id, name, buildingId)
+                                viewModel.onEditDialogDismiss() }) {
                 Text("Save")
             }
         },
         dismissButton = {
             Row {
-                Button(onClick = { viewModel.deleteGate(gate) }) {
+                Button(onClick = { viewModel.deleteGate(gate)
+                                    viewModel.onEditDialogDismiss() }) {
                     Text("Delete")
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -170,6 +173,10 @@ fun GateCard(gate: Gate, onLongClick: () -> Unit) {
                 )
                 Text(
                     text = "Building ID: ${gate.building_id}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Gate ID: ${gate.id}",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

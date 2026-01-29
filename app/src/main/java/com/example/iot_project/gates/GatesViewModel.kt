@@ -51,7 +51,7 @@ class GatesViewModel(
 
     fun createGate(name: String, buildingId: String) {
         viewModelScope.launch {
-            val newGate = Gate(id = 0, name = name, building_id = buildingId.toIntOrNull() ?: 0)
+            val newGate = Gate(id = -1, name = name, building_id = buildingId.toIntOrNull() ?: 0)
             repo.create(newGate)
             importGates()
             onAddDialogDismiss()

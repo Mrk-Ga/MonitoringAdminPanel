@@ -49,18 +49,18 @@ class ClientsViewModel(
         }
     }
 
-    fun createClient(name: String, lastname: String, refId: String, email: String) {
+    fun createClient(name: String, lastname: String, refId: String, email: String, indeks: String) {
         viewModelScope.launch {
-            val newClient = Client(id = 0, name = name, lastname = lastname, refId = refId.toIntOrNull() ?: 0, email = email)
+            val newClient = Client(id = -1, name = name, lastname = lastname, rfid = refId.toIntOrNull() ?: 0, email = email, indeks = indeks)
             repo.create(newClient)
             importClients()
             onAddDialogDismiss()
         }
     }
 
-    fun updateClient(id: Int, name: String, lastname: String, refId: String, email: String) {
+    fun updateClient(id: Int, name: String, lastname: String, refId: String, email: String, indeks:String) {
         viewModelScope.launch {
-            val updatedClient = Client(id = id, name = name, lastname = lastname, refId = refId.toIntOrNull() ?: 0, email = email)
+            val updatedClient = Client(id = id, name = name, lastname = lastname, rfid = refId.toIntOrNull() ?: 0, email = email, indeks=indeks)
             repo.update(updatedClient)
             importClients()
             onEditDialogDismiss()

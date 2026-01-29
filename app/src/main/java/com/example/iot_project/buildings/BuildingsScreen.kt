@@ -55,7 +55,7 @@ fun BuildingsScreen(
     }
 
     if (showEditDialog) {
-        viewModel.selectedBuilding.value?.let {
+        viewModel.selectedBuilding.collectAsState().value?.let {
             EditBuildingDialog(viewModel = viewModel, building = it)
         }
     }
@@ -96,7 +96,8 @@ fun AddBuildingDialog(viewModel: BuildingsViewModel) {
             }
         },
         confirmButton = {
-            Button(onClick = { viewModel.createBuilding(name, address) }) {
+            Button(onClick = { viewModel.createBuilding(name, address)
+            viewModel.onAddDialogDismiss() }) {
                 Text("Add")
             }
         },
@@ -124,13 +125,15 @@ fun EditBuildingDialog(viewModel: BuildingsViewModel, building: Building) {
             }
         },
         confirmButton = {
-            Button(onClick = { viewModel.updateBuilding(building.id, name, address) }) {
+            Button(onClick = { viewModel.updateBuilding(building.id, name, address)
+            viewModel.onEditDialogDismiss() }) {
                 Text("Save")
             }
         },
         dismissButton = {
             Row {
-                Button(onClick = { viewModel.deleteBuilding(building) }) {
+                Button(onClick = { viewModel.deleteBuilding(building)
+                viewModel.onEditDialogDismiss()}) {
                     Text("Delete")
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -164,12 +167,16 @@ fun BuildingCard(building: Building, onLongClick: () -> Unit) {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = building.name,
+                    text = "Name: " + building.name,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = building.address,
+                    text = "Building ID: " + building.id.toString(),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Address: " + building.address,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
