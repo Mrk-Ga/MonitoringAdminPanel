@@ -1,10 +1,10 @@
-# IoT_project
+# Monitoring Admin Panel
 
 This is an Android application for an IoT project's admin panel. It allows administrators to manage gates, clients, buildings, and access logs.
 
 ## Getting Started
 
-To build and run the application, open the project in Android Studio and run it on an emulator or a physical device.
+To build and run the application, open the project in Android Studio and run it on an emulator or a physical device. There is backend application needed to run.
 
 ## Project Structure
 
